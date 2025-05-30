@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 function BookGymClass({ gymClass, username }) {
     const [message, setMessage] = useState('');
 
+    if (!gymClass) return <p>inga tillgängliga klasser just nu.</p>;
+
+
+
     const bookClass = () => {
         fetch('http://localhost:8080/api/bookings', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 username: username,
-                gymClass: { id: gymClass.id },
+                gymClass: {id: gymClass.id},
             }),
         })
             .then((res) => {
