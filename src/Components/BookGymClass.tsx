@@ -1,19 +1,27 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-function BookGymClass({ gymClass, username }) {
-    const [message, setMessage] = useState('');
+type GymClass = {
+    id: string;
+    name: string;
+};
 
-    if (!gymClass) return <p>inga tillgängliga klasser just nu.</p>;
+type BookGymClassProps = {
+    gymClass?: GymClass;
+    username: string;
+};
 
+const BookGymClass: React.FC<BookGymClassProps> = ({ gymClass, username }) => {
+    const [message, setMessage] = useState<string>("");
 
+    if (!gymClass) return <p>Inga tillgängliga klasser just nu.</p>;
 
     const bookClass = () => {
         fetch('http://localhost:8080/api/bookings', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 username: username,
-                gymClass: {id: gymClass.id},
+                gymClass: { id: gymClass.id },
             }),
         })
             .then((res) => {
@@ -34,6 +42,6 @@ function BookGymClass({ gymClass, username }) {
             {message && <p>{message}</p>}
         </div>
     );
-}
+};
 
 export default BookGymClass;
